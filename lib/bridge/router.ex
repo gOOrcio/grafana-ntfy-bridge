@@ -45,7 +45,9 @@ defmodule Bridge.Router do
       expected ->
         case Plug.Conn.get_req_header(conn, "authorization") do
           ["Bearer " <> token] when token == expected -> :ok
-          _ -> :unauthorized
+          received ->
+            Logger.error("auth mismatch — received: #{inspect(received)}, expected length: #{String.length(expected)}")
+            :unauthorized
         end
     end
   end
