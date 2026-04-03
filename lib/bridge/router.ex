@@ -8,8 +8,7 @@ defmodule Bridge.Router do
   plug Plug.Parsers,
     parsers: [:json],
     pass: ["application/json"],
-    json_decoder: Jason,
-    body_reader: {Plug.Conn, :read_body, [length: 64_000]}
+    json_decoder: Jason
 
   plug :dispatch
 
