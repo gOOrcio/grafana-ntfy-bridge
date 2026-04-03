@@ -1,3 +1,2 @@
 [tools]
-elixir = "1.17.3"
-erlang = "27.2"
+go = "1.23"
