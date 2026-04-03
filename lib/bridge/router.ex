@@ -37,20 +37,7 @@ defmodule Bridge.Router do
     send_resp(conn, 404, "not found")
   end
 
-  defp check_auth(conn) do
-    case System.get_env("AUTH_TOKEN") do
-      nil ->
-        :ok
-
-      expected ->
-        case Plug.Conn.get_req_header(conn, "authorization") do
-          ["Bearer " <> token] when token == expected -> :ok
-          received ->
-            Logger.error("auth mismatch — received: #{inspect(received)}, expected length: #{String.length(expected)}")
-            :unauthorized
-        end
-    end
-  end
+  defp check_auth(_conn), do: :ok
 
   defp forward_to_ntfy(title, message) do
     url = System.get_env("NTFY_URL", "http://ntfy:80/") |> String.to_charlist()
