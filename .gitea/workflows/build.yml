@@ -1,0 +1,13 @@
+name: build
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: gooral/ci-workflows/.gitea/workflows/image-build-arm64.yml@main
+    with:
+      image-name: grafana-ntfy-bridge
+      tag: latest
+    secrets: inherit
