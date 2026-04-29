@@ -54,7 +54,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	if err := forwardToNtfy(p.Title, p.Message); err != nil {
 		log.Printf("ntfy forward failed: %v", err)
-		http.Error(w, "upstream error", http.StatusBadGateway)
+		http.Error(w, "upstream error encountered:", http.StatusBadGateway)
 		return
 	}
 
