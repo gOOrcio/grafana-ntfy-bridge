@@ -39,7 +39,10 @@ func main() {
 }
 
 func handleHealth(w http.ResponseWriter, _ *http.Request) {
-	w.Write([]byte("ok"))
+	_, err := w.Write([]byte("ok"))
+	if err != nil {
+		return
+	}
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +58,10 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("ok"))
+	_, err := w.Write([]byte("ok"))
+	if err != nil {
+		return
+	}
 }
 
 func forwardToNtfy(title, message string) error {
@@ -79,7 +85,12 @@ func forwardToNtfy(title, message string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		body, _ := io.ReadAll(resp.Body)
