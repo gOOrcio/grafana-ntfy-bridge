@@ -1,11 +1,11 @@
-FROM --platform=$BUILDPLATFORM golang:1.23-alpine AS build
+FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine AS build
 ARG TARGETARCH
 WORKDIR /app
 COPY go.mod ./
 COPY *.go ./
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH go build -ldflags="-s -w" -o bridge .
 
-FROM alpine:3.20.3
+FROM alpine:3.24
 RUN addgroup -g 1000 bridge && adduser -u 1000 -G bridge -s /bin/sh -D bridge
 COPY --from=build /app/bridge /bridge
 USER bridge
